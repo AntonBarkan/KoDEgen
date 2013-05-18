@@ -1,9 +1,10 @@
 package CucumberRun;
 
 import java.util.LinkedList;
+import static Ontology.Ontology.*;
 
 public class ErrorFinder {
-	public static final String PATH = "/home/anton/Documents/project/shop/features/";
+	
 	public static final LinkedList<String> ERROR_LIST = new LinkedList<>();
 	private static final ErrorSolverFactory FACTORY = new ErrorSolverFactory();
 	
@@ -17,9 +18,8 @@ public class ErrorFinder {
 	
 	public ErrorFinder(){
 		int i = 10;
-		while(i--!=0){
-			
-			String output = GetData.runCucumber(PATH+"shop.features");
+		while(i--!=0){		
+			String output = GetData.runCucumber(PATH + PROJECT_NAME + ".features");
 			System.out.println(output);
 			for( String errorNode : ERROR_LIST ){
 				if( output.contains(errorNode) ){

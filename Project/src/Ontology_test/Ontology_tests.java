@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 import Ontology.Ontology;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
+import TestGenerator.UnitTestStruct;
 
 
 
@@ -68,7 +69,7 @@ public class Ontology_tests {
 	}
 	
 	@Test
-	public void testClassAttributeValueGenerate() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+	public void testClassAttributeValueGenerate_notThen() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		Method method = this.ontology.getClass().getDeclaredMethod("classAttributeValueGenerate", String.class,String.class,String.class );
 		method.setAccessible(true);
 		Field globalClassListField = this.ontology.getClass().getDeclaredField("globalClassList");
@@ -80,15 +81,22 @@ public class Ontology_tests {
 	}
 	
 	@Test
-	public void testgetParametersString() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Method method = this.ontology.getClass().getDeclaredMethod("getParametersString", String.class );
+	public void testClassAttributeValueGenerate_withThen() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+		Method method = this.ontology.getClass().getDeclaredMethod("classAttributeValueGenerate", String.class,String.class,String.class );
 		method.setAccessible(true);
-		assertEquals("quantity, name",((String)method.invoke(this.ontology ,"When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\" to shopping cart$/ do |quantity, name|")).trim());
+		Field globalClassListField = this.ontology.getClass().getDeclaredField("globalClassList");
+		globalClassListField.setAccessible(true);
+		LinkedList<String> list = new LinkedList<>();
+		list.add("account");
+		globalClassListField.set(this.ontology,list);
+		assertEquals("assert balance == @account.balance.to_s",((String)method.invoke( this.ontology , "account" ,
+				"balance" ,"Then /^the account balance should be <balance> \\$(\\d+)$/ do |balance|")).trim()  );
 	}
+	
 	
 	@Test
 	public void tets_testFunctionGeneretor() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
-		Method method = this.ontology.getClass().getDeclaredMethod("testFunctionGeneretor" ,State.class,Edge.class, String.class);
+		Method method = this.ontology.getClass().getDeclaredMethod("testFunctionGeneretor" ,State.class,Edge.class, String.class, UnitTestStruct.class);
 		method.setAccessible(true);
 		State state = mock(State.class);
 		Edge edge = mock(Edge.class);
@@ -99,12 +107,14 @@ public class Ontology_tests {
 		LinkedList<String> list = new LinkedList<>();
 		list.add("shopping_cart");
 		field.set(this.ontology, list);
-		assertEquals("@shopping_cart.add(quantity, name)",(String)method.invoke(   this.ontology ,state,edge,"When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\" to shopping cart$/ do |quantity, name|"));
+		UnitTestStruct uts = mock(UnitTestStruct.class);
+		when(uts.getParamettersString()).thenReturn("quantity , name");
+		assertEquals("@shopping_cart.add(quantity , name)",(String)method.invoke(   this.ontology ,state,edge,"When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\" to shopping cart$/ do |quantity, name|",uts));
 	}
 	
 	@Test
 	public void tets_testFunctionGeneretorAssertTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
-		Method method = this.ontology.getClass().getDeclaredMethod("testFunctionGeneretor" ,State.class,Edge.class, String.class);
+		Method method = this.ontology.getClass().getDeclaredMethod("testFunctionGeneretor" ,State.class,Edge.class, String.class,UnitTestStruct.class);
 		method.setAccessible(true);
 		State state = mock(State.class);
 		Edge edge = mock(Edge.class);
@@ -115,7 +125,9 @@ public class Ontology_tests {
 		LinkedList<String> list = new LinkedList<>();
 		list.add("shopping_cart");
 		field.set(this.ontology, list);
-		assertEquals("assert quantity == @shopping_cart.contains( )",(String)method.invoke(   this.ontology ,state,edge,"Then /^shopping cart contains <quantity> (\\d+) items$/ do |quantity|"));
+		UnitTestStruct uts = mock(UnitTestStruct.class);
+		when(uts.getParamettersString()).thenReturn("quantity");
+		assertEquals("assert quantity == @shopping_cart.contains( ).to_s",(String)method.invoke(   this.ontology ,state,edge,"Then /^shopping cart contains <quantity> (\\d+) items$/ do |quantity|",uts));
 	}
 
 }

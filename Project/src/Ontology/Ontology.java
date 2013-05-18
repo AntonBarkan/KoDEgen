@@ -13,12 +13,27 @@ import Exeptions.SameFieldException;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
 import StateMachineXML.StateMachineXMLReader;
+import TestGenerator.UnitTestStruct;
 import attempts.ReadXMLFile;
 import attempts.XMLProduct;
 
 
 public class Ontology {
-	private String ontologyPath, ontologyStatesPath;
+	public static final String 
+		/*
+		    PROJECT_NAME = "ATM",
+			PATH = "/home/anton/Documents/project/shop/features/",
+			ONTOLOGY_PATH = "/home/anton/Documents/project/shop/shop.xml" ,
+			ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/shop/shop_ontology_state.xml",
+			STEP_FILE_PATH = "/home/anton/Documents/project/shop/features/step_definitions/shop_steps.rb";
+		*/
+	PROJECT_NAME = "ATM",
+	PATH = "/home/anton/Documents/project/ATM/features/",
+	ONTOLOGY_PATH = "/home/anton/Documents/project/ATM/ATM.xml" ,
+	ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/ATM/ATM_ontology_state.xml",
+	STEP_FILE_PATH = "/home/anton/Documents/project/ATM/features/step_definitions/ATM_steps.rb";
+
+		
 	private LinkedList<State> statesList;
 	private LinkedList<XMLProduct> ontologyList;
 	private LinkedList<String> globalClassList;
@@ -30,35 +45,36 @@ public class Ontology {
 	public Ontology() throws SameFieldException, IOException{
 		this.code = new LinkedList<>();
 		this.globalClassList = new LinkedList<>();
-		this.ontologyPath = "/home/anton/Documents/project/shop.xml";
-		this.ontologyStatesPath =  "/home/anton/Documents/project/shop_ontology_state.xml";	
+ 	
+		
 		this.execute();
 	}
 	
 	
 	
 	private void execute() throws SameFieldException, IOException{
-		ReadXMLFile readerOntology = new ReadXMLFile(this.ontologyPath);
+		ReadXMLFile readerOntology = new ReadXMLFile(ONTOLOGY_PATH);
 		readerOntology.execute();
 		this.ontologyList = readerOntology.getProductList();	
-		StateMachineXMLReader readerStates = new StateMachineXMLReader(this.ontologyStatesPath);
+		StateMachineXMLReader readerStates = new StateMachineXMLReader(ONTOLOGY_STATES_PATH);
 		readerStates.execute();
 		this.statesList = readerStates.getList();
 			
 		
 	}
 
-	
-
 	public String  findCoincidence(String string,String line) {
+		UnitTestStruct unitTestStruct = new UnitTestStruct(string);
 		String retString = "";
 		for(XMLProduct prod : this.ontologyList){
 			if(string.toLowerCase().contains(prod.getName().toLowerCase())){
 				
 				String temp = "\t"+this.classNameGenerate(prod.getName(),  string)+"\n";
-				retString += addToCode(temp);
+				retString += addToCode(temp);		
 				
-				
+				if( !this.addToCode(temp).isEmpty() ){
+					unitTestStruct.addClass( temp.trim().substring(0,temp.trim().indexOf("=")).trim() );
+				}
 			}
 		}
 		
@@ -67,6 +83,8 @@ public class Ontology {
 				if(string.toLowerCase().contains(s)){
 					String temp = "\t"+this.classAttributeValueGenerate(prod.getName(),s,  string)+"\n";
 					retString += temp;
+					unitTestStruct.setInUSe(s);
+					
 				}
 			}
 		}
@@ -74,7 +92,7 @@ public class Ontology {
 		for( State s : statesList ){
 			for(Edge e : s.getEdges()){
 				if(string.toLowerCase().contains(e.getName().toLowerCase())){
-					String temp = "\t"+this.testFunctionGeneretor( s,e ,string)+"\n";
+					String temp = "\t"+this.testFunctionGeneretor( s , e , string , unitTestStruct )+"\n";
 					retString += temp;
 				}
 			}
@@ -84,9 +102,10 @@ public class Ontology {
 
 
 
+
+
+
 	private String addToCode(String temp) {
-		System.out.println(temp);
-		
 		if( !code.contains(temp) ){
 			if(temp.trim().startsWith("@")){
 				code.add(temp);
@@ -99,50 +118,39 @@ public class Ontology {
 
 
 	private String classAttributeValueGenerate(String className , String attribute, String line) {
+		
 		attribute = attribute.toLowerCase();
 		String retString = "";
 		if( this.globalClassList.contains(this.claseNameFinder(className, line)) ){
 			retString = "@";
 		}
-		
-		
-		return retString + this.claseNameFinder(className, line) + "." + attribute + " = " + attribute ;
+		if(line.startsWith("Then")){
+			return "assert " + attribute + " == " + retString + "" + this.claseNameFinder( className, line) 
+					+ "." + attribute + ".to_s" ;  
+		}else{
+			return retString + this.claseNameFinder(className, line) + "." + attribute + " = " + attribute ;
+		}
 	}
 
 
 
-	private String testFunctionGeneretor(State state, Edge edge , String line) {
+	private String testFunctionGeneretor(State state, Edge edge , String line , UnitTestStruct unitTestStruct) {
 		String retString = "";
 		if( this.globalClassList.contains(this.claseNameFinder(state.getClassName(), line)) ){
 			retString = "@";
 		}
 		
 		if(line.startsWith("Then")){
-			return "assert " + this.getParametersString(line)+" == " + retString 
-					+this.claseNameFinder(state.getClassName(), line)+"."+edge.getName()+"( )";
+			return "assert " + unitTestStruct.getParamettersString()+" == " + retString 
+					+this.claseNameFinder(state.getClassName(), line)+"."+edge.getName()+"( ).to_s";
 		}
-		return retString+this.claseNameFinder(state.getClassName(), line)+"."+edge.getName()+"("+this.getParametersString(line)+")";
+		return retString+this.claseNameFinder(state.getClassName(), line)+"."+edge.getName()+"("+unitTestStruct.getParamettersString()+")";
 		
 	}
 	
-	private String getParametersString(String line) {
-		line = line.substring(line.indexOf("|")+1);
-		if(line.contains("|")){
-			return line.substring(0,line.indexOf("|"));
-		}
-		return "";
-
-		
-	}
-	
-
-
-
 	private String claseNameFinder(String className , String line){
 		
 			return className.replaceAll(" ", "_").toLowerCase();
-		
-
 	}
 
 
@@ -168,9 +176,6 @@ public class Ontology {
 				}
 			}
 			CodeCreator.getInstance().addClassToMap(c);
-		}
-		
+		}		
 	}
-	
-
 }

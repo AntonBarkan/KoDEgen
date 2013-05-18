@@ -18,7 +18,15 @@ public abstract class ErrorSolver {
 	}
 	
 	protected String  getStringFromFirstStringToSecondString(String line,String firstString , String secondString){
+		if(!line.contains(firstString))
+		{
+			return null;
+		}
 		String returnString  = line.substring( line.indexOf(firstString)+firstString.length());
+		if(!line.contains(secondString))
+		{
+			return null;
+		}
 		returnString = returnString.substring(0,returnString.indexOf(secondString));
 		return returnString;
 		

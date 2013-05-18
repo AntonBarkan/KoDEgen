@@ -8,12 +8,10 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import CodeCreator.ClassCreator;
-import CucumberRun.ErrorFinder;
+import static Ontology.Ontology.*;
 
 
-public class TestCreator {
-	public static final String PROJECT_NAME = "shop_steps";
-	
+public class TestCreator {	
 	
 	private LinkedList<String> testSteps;
 	
@@ -34,7 +32,7 @@ public class TestCreator {
 	}
 
 	public void generateTests() {
-		File file = new File(ErrorFinder.PATH+"step_definitions/"+PROJECT_NAME+".rb");
+		File file = new File( PATH + "step_definitions/" + PROJECT_NAME + "_steps" + ".rb" );
 		try {
 			file.createNewFile();
 			FileWriter fileWriter = new FileWriter(file);

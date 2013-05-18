@@ -121,6 +121,23 @@ public class Method_test {
 		assertEquals(TEST_NAME, this.methode.getMethodName());
 	}
 	
+	@Test
+	public void check_removeParameter() throws SameParameterExeption, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+		this.methode.addParameter(FIRST_TEST_PARAMETER);
+		this.methode.addParameter(SECOND_TEST_PARAMETER);
+		this.methode.addParameter(THIRTH_TEST_PARAMETER);
+		
+		this.methode.removeParameter(SECOND_TEST_PARAMETER);
+		
+		LinkedList<String> testList = new LinkedList<>();
+		testList.add(FIRST_TEST_PARAMETER);;
+		testList.add(THIRTH_TEST_PARAMETER);
+		Field testName = this.methode.getClass().getDeclaredField("methodParameters");
+		testName.setAccessible(true);
+		assertEquals(testName.get(this.methode), testList);
+	}
+	
+	
 	
 
 }

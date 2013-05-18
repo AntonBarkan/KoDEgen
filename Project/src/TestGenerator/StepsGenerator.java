@@ -2,14 +2,14 @@ package TestGenerator;
 
 import java.util.Vector;
 
-import CucumberRun.ErrorFinder;
+
 import CucumberRun.GetData;
 import Ontology.Ontology;
-
+import static Ontology.Ontology.*;
 
 
 public class StepsGenerator {
-	public static final String PROJECT_NAME = "shop";
+	
 	
 	private static final String FROM_TEXT = "You can implement step definitions for undefined steps with these snippets:\n\n", 
 								TO_TEXT   = "If you want snippets in a different programming language,";
@@ -18,7 +18,7 @@ public class StepsGenerator {
 	
 	public StepsGenerator(Ontology ontology){
 		this.ontology = ontology;
-		String data = GetData.runCucumber(ErrorFinder.PATH+PROJECT_NAME+".features");
+		String data = GetData.runCucumber(PATH+""+PROJECT_NAME+".features");
 		Vector<String> lines = getScenario(data);
 		data = data.substring( data.indexOf(FROM_TEXT)+FROM_TEXT.length() );
 		data = data.substring(0, data.indexOf(TO_TEXT));

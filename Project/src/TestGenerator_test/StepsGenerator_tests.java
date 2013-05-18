@@ -11,8 +11,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import CucumberRun.ErrorFinder;
 import Ontology.Ontology;
+import static Ontology.Ontology.*;
 import TestGenerator.StepsGenerator;
 
 public class StepsGenerator_tests {
@@ -22,7 +22,7 @@ public class StepsGenerator_tests {
 	
 	@Before
 	public void setUp() throws Exception {
-		File dir = new File(ErrorFinder.PATH+"step_definitions/");
+		File dir = new File(PATH+"step_definitions/");
 		FileUtils.cleanDirectory(dir);
 		this.ontology = mock(Ontology.class);
 		this.gen = new StepsGenerator(this.ontology);

@@ -1,9 +1,7 @@
 package CodeCreator;
-import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import Exeptions.SameParameterExeption;
 
@@ -56,7 +54,11 @@ public class Method{
 	public void addParameter(String parameter) throws SameParameterExeption {
 		if(this.methodParameters.contains(parameter))
 			throw new SameParameterExeption(parameter);
-		this.methodParameters.add(parameter);
+		this.methodParameters.add(parameter.trim());
+	}
+	
+	public void removeParameter(String parameter) {
+		 this.methodParameters.remove(parameter.trim()); 
 	}
 	
 	@Override

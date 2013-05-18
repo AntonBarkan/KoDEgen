@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import CucumberRun.ErrorFinder;
+import static Ontology.Ontology.*;
 import Exeptions.ClassNameNotFoundException;
 import Exeptions.SameFieldException;
 import attempts.XMLProduct;
@@ -57,7 +57,7 @@ public class CodeCreator {
 	public void generateClasses(){
 		for(Map.Entry<String, ClassCreator> entry : classMap.entrySet()){
 			String classString = entry.getValue().generateCode();
-			File file = new File(ErrorFinder.PATH+"step_definitions/"+entry.getKey()+".rb");
+			File file = new File(PATH+"step_definitions/"+entry.getKey()+".rb");
 			try {
 				file.createNewFile();
 				FileWriter fileWriter = new FileWriter(file);
