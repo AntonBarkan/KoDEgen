@@ -1,8 +1,11 @@
 package CucumberRun;
 
 public abstract class ErrorSolver {
-	public static final int NO_METHOD_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("(NoMethodError)");
-	public static final int ARGUMENT_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("(ArgumentError)");
+	public static final int NO_METHOD_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("(NoMethodError)"),
+			ARGUMENT_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("(ArgumentError)")
+		    ,FAILED_ASSERTION_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("Failed assertion")
+					;
+	
 		
 	protected abstract void addToCode();
 	

@@ -1,7 +1,7 @@
 package CucumberRun;
 
-import CodeCreator.CodeCreator;
-import CodeCreator.Method;
+import codeCreator.CodeCreator;
+import codeCreator.Method;
 import Exeptions.ClassNameNotFoundException;
 import Exeptions.SameFunctionExeption;
 

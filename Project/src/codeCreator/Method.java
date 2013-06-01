@@ -1,4 +1,4 @@
-package CodeCreator;
+package codeCreator;
 
 import java.util.LinkedList;
 
@@ -11,16 +11,21 @@ public class Method{
 	private String methodLogic;
 	
 
-	public Method(String methodName) {
+	public Method(String methodName) 
+	{
 		this.methodName = methodName;
 		this.methodParameters = new LinkedList<>();
 		this.methodLogic = "";
 	}
 	
 	
-
+	public void addLogic( String logic )
+	{
+		this.methodLogic = logic ;
+	}
 	
-	public String generateCode() {
+	public String generateCode() 
+	{
 		String returnValue = "\tdef "+this.methodName;
 		
 		
@@ -40,7 +45,7 @@ public class Method{
 		}else{
 			returnValue+="\n";
 		}
-		returnValue+=this.methodLogic+"\n";
+		returnValue+="\t\t"+this.methodLogic+"\n";
 		returnValue+="\tend\n";
 		return returnValue; 
 	}

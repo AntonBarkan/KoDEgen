@@ -1,4 +1,4 @@
-package CodeCreator_test;
+package codeCreator_test;
 
 import static org.junit.Assert.*;
 
@@ -11,8 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import CodeCreator.ClassCreator;
-import CodeCreator.Method;
+import codeCreator.ClassCreator;
+import codeCreator.Method;
+
 import Exeptions.ExistTwoMethodsWithThisName;
 import Exeptions.MethodNameNotFoundException;
 import Exeptions.SameFieldException;

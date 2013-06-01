@@ -24,9 +24,12 @@ public class Ontology_tests {
 	private Ontology ontology;
 
 	@Before
-	public void setUp() throws Exception {
-		this.ontology = new Ontology();//mock(Ontology.class);
+	public void setUp() throws Exception 
+	{
+		this.ontology = new Ontology();
 	}
+	
+	
 
 	@Test
 	public void testCreatingNewObjectWithoutName() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {

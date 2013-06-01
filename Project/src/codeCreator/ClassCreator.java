@@ -1,4 +1,4 @@
-package CodeCreator;
+package codeCreator;
 
 import java.util.LinkedList;
 

@@ -1,4 +1,4 @@
-package CodeCreator_test;
+package codeCreator_test;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import CodeCreator.Method;
+import codeCreator.Method;
+
 import Exeptions.SameParameterExeption;
 
 public class Method_test {

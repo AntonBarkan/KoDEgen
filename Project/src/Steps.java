@@ -3,8 +3,10 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import CodeCreator.CodeCreator;
+import codeCreator.CodeCreator;
+
 import CucumberRun.ErrorFinder;
+import Exeptions.ClassNameNotFoundException;
 import Exeptions.SameFieldException;
 import Ontology.Ontology;
 import TestGenerator.StepsGenerator;
@@ -28,12 +30,17 @@ public class Steps {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		new StepsGenerator(ontology);
 		ontology.generateCode();
+		
+		new StepsGenerator(ontology);
 		CodeCreator.getInstance().generateClasses();
 		TestCreator.getInstance().generateTests();
-		
-		new ErrorFinder();
+		try {
+			new ErrorFinder(ontology);
+		} catch (ClassNameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

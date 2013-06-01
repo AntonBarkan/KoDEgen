@@ -7,8 +7,9 @@ import java.util.LinkedList;
 
 import org.apache.commons.lang.WordUtils;
 
-import CodeCreator.ClassCreator;
-import CodeCreator.CodeCreator;
+import codeCreator.ClassCreator;
+import codeCreator.CodeCreator;
+
 import Exeptions.SameFieldException;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
@@ -20,8 +21,8 @@ import attempts.XMLProduct;
 
 public class Ontology {
 	public static final String 
-		/*
-		    PROJECT_NAME = "ATM",
+	/*
+		    PROJECT_NAME = "shop",
 			PATH = "/home/anton/Documents/project/shop/features/",
 			ONTOLOGY_PATH = "/home/anton/Documents/project/shop/shop.xml" ,
 			ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/shop/shop_ontology_state.xml",
@@ -36,7 +37,8 @@ public class Ontology {
 		
 	private LinkedList<State> statesList;
 	private LinkedList<XMLProduct> ontologyList;
-	private LinkedList<String> globalClassList;
+	private HashMap<String, String> globalClassMap;
+	//private LinkedList<String> globalClassList;
 	private LinkedList<String> code;
 	
 	private static final String NAME_TAG = "<name>";
@@ -44,8 +46,8 @@ public class Ontology {
 	
 	public Ontology() throws SameFieldException, IOException{
 		this.code = new LinkedList<>();
-		this.globalClassList = new LinkedList<>();
- 	
+		//this.globalClassList = new LinkedList<>();
+		this.globalClassMap = new HashMap<String, String>();
 		
 		this.execute();
 	}
@@ -117,11 +119,14 @@ public class Ontology {
 
 
 
-	private String classAttributeValueGenerate(String className , String attribute, String line) {
+	private String classAttributeValueGenerate(String className , String attribute, String line) 
+	{
 		
 		attribute = attribute.toLowerCase();
 		String retString = "";
-		if( this.globalClassList.contains(this.claseNameFinder(className, line)) ){
+		if( //this.globalClassList.contains(this.claseNameFinder(className, line)) ){
+			this.globalClassMap.keySet().contains(this.claseNameFinder(className, line)))
+		{
 			retString = "@";
 		}
 		if(line.startsWith("Then")){
@@ -136,7 +141,7 @@ public class Ontology {
 
 	private String testFunctionGeneretor(State state, Edge edge , String line , UnitTestStruct unitTestStruct) {
 		String retString = "";
-		if( this.globalClassList.contains(this.claseNameFinder(state.getClassName(), line)) ){
+		if( this.globalClassMap.keySet().contains(this.claseNameFinder(state.getClassName(), line)) ){
 			retString = "@";
 		}
 		
@@ -157,9 +162,10 @@ public class Ontology {
 
 	private String classNameGenerate(String name , String line) {
 		String retString = "";
-		if( line.startsWith("Given") || (this.globalClassList.contains(this.claseNameFinder(name, line))) ){
+		if( line.startsWith("Given") || (this.globalClassMap.keySet().contains(this.claseNameFinder(name, line))) ){
 			retString += "@";
-			this.globalClassList.add( claseNameFinder( name , line ));
+			//this.globalClassList.add( claseNameFinder( name , line ));
+			this.globalClassMap.put( claseNameFinder( name , line ) , WordUtils.capitalize(name.replace(" ", "_")) );
 		}
 		return retString+this.claseNameFinder( name , line ) + " = " + WordUtils.capitalize(name.replace(" ", "_"))+".new";
 	}
@@ -177,5 +183,15 @@ public class Ontology {
 			}
 			CodeCreator.getInstance().addClassToMap(c);
 		}		
+	}
+	
+	public Object[] getGlobalClasses(){
+		return this.globalClassMap.keySet().toArray();
+	}
+
+
+
+	public String getClassType(String className) {
+		return this.globalClassMap.get(className);
 	}
 }

@@ -1,10 +1,11 @@
-package CodeCreator;
+package codeCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static Ontology.Ontology.*;
@@ -73,12 +74,17 @@ public class CodeCreator {
 	}
 
 	public ClassCreator getClassCode(String className) throws ClassNameNotFoundException {
-		System.out.println(className);
 		if(this.classMap.get(className)!=null){
 			return this.classMap.get(className);
 		}
 		throw new ClassNameNotFoundException();
 		
+	}
+
+	public LinkedList<String> getAllClassesNames() {
+		LinkedList<String> list = new LinkedList<>();
+		list.addAll(this.classMap.keySet());
+		return list;		
 	}
 		
 }

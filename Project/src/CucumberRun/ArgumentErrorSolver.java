@@ -6,10 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import codeCreator.ClassCreator;
+import codeCreator.CodeCreator;
+import codeCreator.Method;
 
-import CodeCreator.ClassCreator;
-import CodeCreator.CodeCreator;
-import CodeCreator.Method;
+
 import Exeptions.ClassNameNotFoundException;
 import Exeptions.MethodNameNotFoundException;
 import Exeptions.SameParameterExeption;

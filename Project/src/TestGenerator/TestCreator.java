@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 
-import CodeCreator.ClassCreator;
+import codeCreator.ClassCreator;
+
 import static Ontology.Ontology.*;
 
 
@@ -29,6 +30,15 @@ public class TestCreator {
 	
 	public void addStep(String string){
 		this.testSteps.addLast(string);
+	}
+	
+	public String findStep(String test){
+		for( String s: this.testSteps ){
+			if( s.startsWith(test) ){
+				return s;
+			}
+		}
+		return null;
 	}
 
 	public void generateTests() {

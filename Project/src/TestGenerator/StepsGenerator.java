@@ -20,6 +20,7 @@ public class StepsGenerator {
 		this.ontology = ontology;
 		String data = GetData.runCucumber(PATH+""+PROJECT_NAME+".features");
 		Vector<String> lines = getScenario(data);
+		System.out.println(data +  "   " + FROM_TEXT);
 		data = data.substring( data.indexOf(FROM_TEXT)+FROM_TEXT.length() );
 		data = data.substring(0, data.indexOf(TO_TEXT));
 		for(String s : dataParser(data, lines)){

@@ -1,6 +1,9 @@
 package CucumberRun;
 
 import java.util.LinkedList;
+
+import Exeptions.ClassNameNotFoundException;
+import Ontology.Ontology;
 import static Ontology.Ontology.*;
 
 public class ErrorFinder {
@@ -12,19 +15,20 @@ public class ErrorFinder {
 		
 		ERROR_LIST.add("(NoMethodError)");
 		ERROR_LIST.add("(ArgumentError)");
+		ERROR_LIST.add("Failed assertion");
 		
 	}
 	
 	
-	public ErrorFinder(){
-		int i = 10;
+	public ErrorFinder(Ontology ontology) throws ClassNameNotFoundException{
+		int i = 4;
 		while(i--!=0){		
 			String output = GetData.runCucumber(PATH + PROJECT_NAME + ".features");
-			System.out.println(output);
 			for( String errorNode : ERROR_LIST ){
-				if( output.contains(errorNode) ){
-					ErrorSolver solver = FACTORY.getErrorSolver(ERROR_LIST.indexOf(errorNode), output);
+				if( output.contains(errorNode) ){	
+					ErrorSolver solver = FACTORY.getErrorSolver(ERROR_LIST.indexOf(errorNode), output ,ontology);
 				}
+				
 			}
 		}
 		
