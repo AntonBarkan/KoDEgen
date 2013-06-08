@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +38,6 @@ public class Method_test {
 	@Test
 	public void checkBasicMethodStructure(){
 		Matcher m = Pattern.compile("\\s*def\\s*"+TEST_NAME+"\\s*end\\s*").matcher(this.methode.generateCode());
-		boolean b = m.matches();
 		assertTrue(m.matches());		
 	} 
 	

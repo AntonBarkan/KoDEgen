@@ -20,7 +20,8 @@ public abstract class ErrorSolver {
 		return null;
 	}
 	
-	protected String  getStringFromFirstStringToSecondString(String line,String firstString , String secondString){
+	protected String  getStringFromFirstStringToSecondString(String line,String firstString , String secondString)
+	{
 		if(!line.contains(firstString))
 		{
 			return null;
@@ -28,7 +29,7 @@ public abstract class ErrorSolver {
 		String returnString  = line.substring( line.indexOf(firstString)+firstString.length());
 		if(!line.contains(secondString))
 		{
-			return null;
+			return line.substring( line.indexOf( firstString ) + firstString.length() );
 		}
 		returnString = returnString.substring(0,returnString.indexOf(secondString));
 		return returnString;

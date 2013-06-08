@@ -1,20 +1,21 @@
 package cucumberRun_test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static commonTestsClasses.TestConstants.*;
+import static commonTestsClasses.TestConstants.PRODUCT_CLASS;
+import static commonTestsClasses.TestConstants.SHOPING_CART_CLASS;
+import static commonTestsClasses.TestConstants.TEST_THEN;
+import static commonTestsClasses.TestConstants.TEST_WHEN;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import Ontology.Ontology;
 import TestGenerator.TestCreator;
-
 import codeCreator.CodeCreator;
 import cucumberRun.FailedAssertionErrorSolver;
 

@@ -21,19 +21,19 @@ import attempts.XMLProduct;
 
 public class Ontology {
 	public static final String 
-	/*
+	
 		    PROJECT_NAME = "shop",
 			PATH = "/home/anton/Documents/project/shop/features/",
 			ONTOLOGY_PATH = "/home/anton/Documents/project/shop/shop.xml" ,
 			ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/shop/shop_ontology_state.xml",
 			STEP_FILE_PATH = "/home/anton/Documents/project/shop/features/step_definitions/shop_steps.rb";
-		*/
+		/*
 	PROJECT_NAME = "ATM",
 	PATH = "/home/anton/Documents/project/ATM/features/",
 	ONTOLOGY_PATH = "/home/anton/Documents/project/ATM/ATM.xml" ,
 	ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/ATM/ATM_ontology_state.xml",
 	STEP_FILE_PATH = "/home/anton/Documents/project/ATM/features/step_definitions/ATM_steps.rb";
-
+*/
 		
 	private LinkedList<State> statesList;
 	private LinkedList<XMLProduct> ontologyList;
@@ -140,11 +140,19 @@ public class Ontology {
 		{
 			retString = "@";
 		}
-		if(line.startsWith("Then")){
-			return "assert " + attribute + " == " + retString + "" + this.findClassName( className, line) 
-					+ "." + attribute + ".to_s" ;  
-		}else{
-			return retString + this.findClassName(className, line) + "." + attribute + " = " + attribute ;
+		if(line.startsWith("Then"))
+		{
+			return
+					retString + "" + this.findClassName( className, line) + "." +
+					"stub(:" + attribute + ").and_return(" + attribute + ")"
+					+ "\n" +
+					"\tassert " + attribute + " == " + retString + "" + 
+					this.findClassName( className, line) + "." + attribute + ".to_s" ;  
+		}
+		else
+		{
+			return retString + this.findClassName(className, line) + "." + attribute + 
+					" = " + attribute ;
 		}
 	}
 
@@ -160,8 +168,11 @@ public class Ontology {
 		
 		if(line.startsWith("Then"))
 		{
-			return "assert " + unitTestStruct.getParamettersString(state.getClassName()) + " == " + retString 
-					+this.findClassName(state.getClassName(), line)+"."+edge.getName()+"( ).to_s";
+			return 
+					retString + this.findClassName(state.getClassName(), line) + ".stub(:" + edge.getName() + ").and_return(" + 
+					unitTestStruct.getParamettersString(state.getClassName()) + ")"	+ "\n" +
+					 "\t" + "assert " + unitTestStruct.getParamettersString(state.getClassName()) + " == " + retString 
+					+ this.findClassName(state.getClassName(), line) + "." + edge.getName()+"( ).to_s";
 		}
 		return retString + this.findClassName( state.getClassName() , line ) + "."
 			+edge.getName() + "(" +

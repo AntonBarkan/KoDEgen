@@ -1,7 +1,6 @@
 package TestGenerator;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 public class UnitTestStruct {
 	private String[] parameters;

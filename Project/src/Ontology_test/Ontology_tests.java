@@ -100,7 +100,7 @@ public class Ontology_tests
 		HashMap<String, String> map= new HashMap<>();
 		map.put("account", "Account");
 		globalClassListField.set(this.ontology, map);
-		assertEquals("assert balance == @account.balance.to_s",((String)method.invoke( this.ontology , "account" ,
+		assertEquals("@account.stub(:balance).and_return(balance)\n\tassert balance == @account.balance.to_s",((String)method.invoke( this.ontology , "account" ,
 				"balance" ,"Then /^the account balance should be <balance> \\$(\\d+)$/ do |balance|")).trim()  );
 	}
 	
@@ -143,7 +143,7 @@ public class Ontology_tests
 		field.set(this.ontology, map);
 		UnitTestStruct uts = mock(UnitTestStruct.class);
 		when(uts.getParamettersString("shopping_cart")).thenReturn("quantity");
-		assertEquals("assert quantity == @shopping_cart.contains( ).to_s",(String)method.invoke(   this.ontology ,state,edge,"Then /^shopping cart contains <quantity> (\\d+) items$/ do |quantity|",uts));
+		assertEquals("@shopping_cart.stub(:contains).and_return(quantity)\n\tassert quantity == @shopping_cart.contains( ).to_s",(String)method.invoke(   this.ontology ,state,edge,"Then /^shopping cart contains <quantity> (\\d+) items$/ do |quantity|",uts));
 	}
 
 }

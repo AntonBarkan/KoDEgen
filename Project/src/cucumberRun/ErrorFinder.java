@@ -26,7 +26,7 @@ public class ErrorFinder {
 			String output = GetData.runCucumber(PATH + PROJECT_NAME + ".features");
 			for( String errorNode : ERROR_LIST ){
 				if( output.contains(errorNode) ){	
-					ErrorSolver solver = FACTORY.getErrorSolver(ERROR_LIST.indexOf(errorNode), output ,ontology);
+					FACTORY.getErrorSolver(ERROR_LIST.indexOf(errorNode), output ,ontology);
 				}
 				
 			}

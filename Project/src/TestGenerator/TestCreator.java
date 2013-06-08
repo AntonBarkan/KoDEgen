@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 
+
 import static Ontology.Ontology.*;
+import static common.CommonFields.*;
 
 
 public class TestCreator 
@@ -52,7 +54,9 @@ public class TestCreator
 			file.createNewFile();
 			FileWriter fileWriter = new FileWriter(file);
 			BufferedWriter stream = new BufferedWriter(fileWriter);
-			stream.write("require \"test/unit/assertions\"\nWorld(Test::Unit::Assertions)\n\n");
+			stream.write(STUB_REQUIRE);
+			stream.write(ASSERT_REQUIRE);
+			stream.write("\n");
 			for( String s : this.testSteps )
 			{	
 				stream.write( s + "\n" );

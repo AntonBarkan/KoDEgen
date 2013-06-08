@@ -18,8 +18,8 @@ import static Ontology.Ontology.*;
 
 public class ArgumentErrorSolver extends ErrorSolver {
 	
-	private String methodName , className  ;
-	private int expectedNumberOfParameters, correctNumberOfParameters, unitTestWithProblemMethodStartLineNumber;
+	private String methodName , className   ;
+	private int expectedNumberOfParameters, correctNumberOfParameters, unitTestWithProblemMethodStartLineNumber  ;
 	
 	
 
@@ -27,6 +27,7 @@ public class ArgumentErrorSolver extends ErrorSolver {
 		String errorLine = findLineWithErrorSentence(cucumberOutput, ErrorFinder.ERROR_LIST.get(ErrorSolver.ARGUMENT_ERROR));
 
 		String methodNameLine = findLineAfterErrorSentence(cucumberOutput);
+		String uitTestLineNumberLine = findLineBeforeErrorSentence(cucumberOutput);
 
 		this.methodName = this.getStringFromFirstStringToSecondString(methodNameLine, "`", "'" );
 		this.expectedNumberOfParameters = Integer.parseInt(this.getStringFromFirstStringToSecondString(errorLine, "(" , " for" ));
@@ -34,7 +35,7 @@ public class ArgumentErrorSolver extends ErrorSolver {
 		
 		this.unitTestWithProblemMethodStartLineNumber =
 				Integer.parseInt(
-						this.getStringFromFirstStringToSecondString(methodNameLine, ".rb:" , ":in" ));
+						this.getStringFromFirstStringToSecondString( uitTestLineNumberLine, ":" , "\n" ) );
 		this.className = methodNameLine.substring( methodNameLine.lastIndexOf("/")+1 );
 		this.className = this.className.substring( 0 , this.className.indexOf(".rb"));
 		this.addToCode();
@@ -51,6 +52,19 @@ public class ArgumentErrorSolver extends ErrorSolver {
 		}
 		return lines[i+1];
 	}
+	
+	private String findLineBeforeErrorSentence(String cucumberOutput) {
+		String[] lines = cucumberOutput.split("\n");
+		int i;
+		for ( i = 0 ; i < lines.length ; i++ ){
+			if ( lines[i].contains(ErrorFinder.ERROR_LIST.get(ErrorSolver.ARGUMENT_ERROR)) ){
+				break;
+			}
+		}
+		return lines[i-1];
+	}
+	
+	
 
 	@Override
 	protected void addToCode() {
@@ -86,19 +100,23 @@ public class ArgumentErrorSolver extends ErrorSolver {
 		return parameters;
 	}
 
-	private String findLineWithProblemFunctionInUnitTest() {
+	@SuppressWarnings("resource")
+	private String findLineWithProblemFunctionInUnitTest() 
+	{
 		BufferedReader reader = null;
-		try {
+		try 
+		{
 			 reader = new BufferedReader(new FileReader(new File(STEP_FILE_PATH)));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (FileNotFoundException e) 
+		{
 			e.printStackTrace();
 		}
 		int i=1;
 		String line="";
 		try {
 			while( (line = reader.readLine()) != null ){
-				if( i++ < 8 ) { continue; }
+				if( i++ < 10 ) { continue; }
 				if( line.trim().equalsIgnoreCase("end") ) { return "" ; }
 				if( line.contains( "."+this.methodName )) { return line; }
 			}

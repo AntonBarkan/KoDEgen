@@ -15,11 +15,11 @@ public class ErrorSolverFactory {
 			return new ArgumentErrorSolver(cucumberOutput);
 		}
 		
-		if ( error == ErrorSolver.FAILED_ASSERTION_ERROR){
-			FailedAssertionErrorSolver er = new FailedAssertionErrorSolver(cucumberOutput,ontology);
-			
-			return er;
-		}
+//		if ( error == ErrorSolver.FAILED_ASSERTION_ERROR){
+//			FailedAssertionErrorSolver er = new FailedAssertionErrorSolver(cucumberOutput,ontology);
+//			
+//			return er;
+//		}
 		
 		return null;
 	}
