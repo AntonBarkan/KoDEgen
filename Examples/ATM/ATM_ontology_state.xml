@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<state_machine>
+	<ontology_state>
+		<class_name>ATM</class_name>
+		<state>
+			<state_name>ready</state_name>
+			<edge>
+				<edge_name>add</edge_name>
+				<edge_to>wait</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+	<ontology_state>
+		<class_name>ATM</class_name>
+		<state>
+			<state_name>withdrawal_operation</state_name>
+			<edge>
+				<edge_name>withdraw</edge_name>
+				<edge_to>withdrawal_operation</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+</state_machine>

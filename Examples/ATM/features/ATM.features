@@ -1,0 +1,7 @@
+Feature: Account Withdrawal
+
+	Scenario: Successful withdrawal from an account
+
+		Given account has a balans of <balance> $100
+		When <amount> $20 are withdrawn from ATM 
+		Then the account balance should be <balance> $80

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ontology>
+	<class> 
+		<name>shopping cart</name>
+		<attribute id="0">products</attribute>
+		<attribute id="1">items per product</attribute>
+		<attribute id="2">tax</attribute>
+		<attribute id="3">current price</attribute>
+		<attribute id="4">total price</attribute>
+	</class>
+	<class>
+		<name>product</name>
+		<attribute id="0">name</attribute>
+		<attribute id="1">price</attribute>
+		<attribute id="2">serial number</attribute>
+		<attribute id="3">part number</attribute>
+	</class>		
+</ontology>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ontology>
+	<class> 
+		<name>ATM</name>
+		<attribute id="0">deposit</attribute>
+		<!--attribute id="1">withdraw</attribute-->
+		<attribute id="2">Verify account</attribute>
+		<attribute id="3">dispense cash</attribute>
+		<attribute id="4">Accert cash</attribute>
+	</class>
+	<class>
+		<name>Account</name>
+		<attribute id="0">Cash operation</attribute>
+		<attribute id="1">request balance</attribute>
+		<attribute id="2">balance</attribute>
+	</class>		
+</ontology>
