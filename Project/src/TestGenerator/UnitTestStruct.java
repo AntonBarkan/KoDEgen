@@ -1,23 +1,26 @@
 package TestGenerator;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 public class UnitTestStruct {
 	private String[] parameters;
 	private boolean[] inUse; 
-	private Vector<String> classesCreatedInTest;
+	private HashMap<String, Boolean> classesCreatedInTest;
 
 	public UnitTestStruct(String ... parameters) {
 		this.parameters = parameters;
 		this.inUse = new boolean[parameters.length];
-		this.classesCreatedInTest = new Vector<>();
+		this.classesCreatedInTest = new HashMap<>();
 	}
 	
 	public UnitTestStruct(String line){
 		this.parameters = this.getParametersArray(line);
 		this.inUse = new boolean[parameters.length];
-		this.classesCreatedInTest = new Vector<>();
+		this.classesCreatedInTest = new HashMap<>();
 	}
+	
+	//---------------private methods-----------------------------------------
 
 	private String[] getParametersArray(String line) {
 		if(!(line!=null && line.contains("|"))){
@@ -33,60 +36,113 @@ public class UnitTestStruct {
 		return arraya;
 	}
 	
-	public void setInUSe(String parameter){
-		parameter = parameter.trim();
-		for( int i = 0 ; i < this.parameters.length ; i++ ){
-			if( this.parameters[i].equalsIgnoreCase(parameter) ){
-				this.inUse[i]=true;
-			}
-		}
-	}
 	
-	public String getParamettersString(){
-		
-		String retString = "",
-				classesString = this.getClassesString(),
-				parametersString = this.getNotInUseParametersString();
-		
-		if( classesString.trim().isEmpty() ){
-			retString = parametersString;
-		}else if( parametersString.trim().isEmpty() ){
-			retString = classesString;
-		}else{
-			retString = parametersString + " , " + classesString;
-		}	
-		return retString;
-	}
-
-	private String getNotInUseParametersString() {
+	private String getNotInUseParametersString() 
+	{
 		String notInUseParametersString =  "";
-		for( int i = 0 ; i < this.parameters.length ; i++ ){
+		for( int i = 0 ; i < this.parameters.length ; i++ )
+		{
 			if(!this.inUse[i]){
 				notInUseParametersString += this.parameters[i] + " , ";
 			}
 		}
-		if( notInUseParametersString.length() < 3 ){
+		if( notInUseParametersString.length() < 3 )
+		{
 			return "";
 		}
 		return notInUseParametersString.substring( 0 , notInUseParametersString.length()-2 ).trim();
 	}
 	
-	private String getClassesString(){
-		
+	
+	@SuppressWarnings("unused")
+	private String getClassesString()
+	{
 		String classesString =  "";
-		if( this.classesCreatedInTest.isEmpty() ){
+		if( this.classesCreatedInTest.isEmpty() )
+		{
 			return classesString;
 		}
-		for( String className : this.classesCreatedInTest ){
+		for( String className : this.classesCreatedInTest.keySet() )
+		{
 			classesString += className + " , ";
 		}
 		return classesString.substring( 0 , classesString.length()-2 ).trim();
 	}
 	
-	public void addClass(String className){
-		this.classesCreatedInTest.add( className );
+	private String getNotInUseClassesString()
+	{
+		
+		String notInUseClassesString =  "";
+		if( this.classesCreatedInTest.isEmpty() )
+		{
+			return notInUseClassesString;
+		}
+		for( String className : this.classesCreatedInTest.keySet() )
+		{
+			if( this.classesCreatedInTest.get(className) )
+			{
+				notInUseClassesString += className + " , ";
+			}
+		}
+		if( notInUseClassesString.isEmpty() )
+		{
+			return notInUseClassesString;
+		}
+		return notInUseClassesString.substring( 0 , notInUseClassesString.length()-2 ).trim();
 	}
 	
+	private void setClassInUse(String className){
+		if( this.classesCreatedInTest.containsKey( className )){
+			this.classesCreatedInTest.put( className , false );
+		}
+	}
+	
+	
+	
+	//---------------public methods-----------------------------------------
+	
+	/**
+	 * @return parameters string for functions called from unit test
+	 */
+	public String getParamettersString(String objectName)
+	{
+		this.setClassInUse( objectName );
+		String retString = "",
+				classesString = this.getNotInUseClassesString(),
+				parametersString = this.getNotInUseParametersString();
+		
+		if( classesString.trim().isEmpty() )
+		{
+			retString = parametersString;
+		}
+		else 
+			if( parametersString.trim().isEmpty() )
+		{
+			retString = classesString;
+		}
+		else
+		{
+			retString = parametersString + " , " + classesString;
+		}	
+		return retString;
+	}
+	
+	public void addClass(String className)
+	{
+		this.classesCreatedInTest.put( className , true );
+	}
+	
+	public void setInUSe(String parameter)
+	{
+		parameter = parameter.trim();
+		for( int i = 0 ; i < this.parameters.length ; i++ )
+		{
+			if( this.parameters[i].equalsIgnoreCase(parameter) )
+			{
+				this.inUse[i]=true;
+			}
+		}
+	}
 	
 	
 

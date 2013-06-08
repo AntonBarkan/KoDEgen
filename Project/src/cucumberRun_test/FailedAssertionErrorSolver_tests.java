@@ -1,4 +1,4 @@
-package CucumberRun_test;
+package cucumberRun_test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -12,11 +12,11 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
-import CucumberRun.FailedAssertionErrorSolver;
 import Ontology.Ontology;
 import TestGenerator.TestCreator;
 
 import codeCreator.CodeCreator;
+import cucumberRun.FailedAssertionErrorSolver;
 
 public class FailedAssertionErrorSolver_tests 
 {

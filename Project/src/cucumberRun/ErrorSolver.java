@@ -1,4 +1,4 @@
-package CucumberRun;
+package cucumberRun;
 
 public abstract class ErrorSolver {
 	public static final int NO_METHOD_ERROR = ErrorFinder.ERROR_LIST.lastIndexOf("(NoMethodError)"),

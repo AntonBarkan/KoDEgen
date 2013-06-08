@@ -82,5 +82,38 @@ public class UnitTestStruct_tests {
 		getParametersArrayMethod.setAccessible(true);	
 		assertEquals( "" , getParametersArrayMethod.invoke( this.str ) );
 	}
+	
+	@Test
+	public void getParamettersString_test_objrctInList()
+	{
+		this.str = new UnitTestStruct("When /^<amount> \\$(\\d+) are withdrawn from ATM$/ do |amount|");
+		this.str.addClass("atm");
+		assertEquals("amount", this.str.getParamettersString("atm"));
+	}
+	
+	@Test
+	public void getParamettersString_test_objectNotInList()
+	{
+		this.str = new UnitTestStruct("When /^<amount> \\$(\\d+) are withdrawn from ATM$/ do |amount|");
+		this.str.addClass("atm");
+		assertEquals("amount , atm", this.str.getParamettersString("test"));
+	}
+	
+	@Test
+	public void setClassInUse_test() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		Method setClassInUseMethod = this.str.getClass().getDeclaredMethod("setClassInUse", String.class);
+		setClassInUseMethod.setAccessible(true);
+		Method getNotInUseClassesStringMethod = this.str.getClass().getDeclaredMethod("getNotInUseClassesString");
+		getNotInUseClassesStringMethod.setAccessible(true);
+		this.str.addClass("atm");
+		this.str.addClass("testClass");
+		assertEquals("atm , testClass", getNotInUseClassesStringMethod.invoke(this.str));
+		setClassInUseMethod.invoke(this.str, "notExistClass");
+		assertEquals("atm , testClass", getNotInUseClassesStringMethod.invoke(this.str));
+		setClassInUseMethod.invoke(this.str, "atm");
+		assertEquals("testClass", getNotInUseClassesStringMethod.invoke(this.str));
+		
+	}
 
 }

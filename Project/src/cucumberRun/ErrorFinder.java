@@ -1,4 +1,4 @@
-package CucumberRun;
+package cucumberRun;
 
 import java.util.LinkedList;
 

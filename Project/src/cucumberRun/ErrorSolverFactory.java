@@ -1,4 +1,4 @@
-package CucumberRun;
+package cucumberRun;
 
 import Exeptions.ClassNameNotFoundException;
 import Ontology.Ontology;
