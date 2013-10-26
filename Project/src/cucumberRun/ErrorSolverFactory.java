@@ -1,6 +1,6 @@
 package cucumberRun;
 
-import Exeptions.ClassNameNotFoundException;
+import Exceptions.ClassNameNotFoundException;
 import Ontology.Ontology;
 
 public class ErrorSolverFactory {

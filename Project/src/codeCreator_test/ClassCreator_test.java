@@ -11,11 +11,11 @@ import org.junit.Test;
 import codeCreator.ClassCreator;
 import codeCreator.Method;
 
-import Exeptions.ExistTwoMethodsWithThisName;
-import Exeptions.MethodNameNotFoundException;
-import Exeptions.SameFieldException;
-import Exeptions.SameFunctionExeption;
-import Exeptions.SameParameterExeption;
+import Exceptions.ExistTwoMethodsWithThisName;
+import Exceptions.MethodNameNotFoundException;
+import Exceptions.SameFieldException;
+import Exceptions.SameFunctionExeption;
+import Exceptions.SameParameterExeption;
 
 public class ClassCreator_test {
 	private ClassCreator classCreator;

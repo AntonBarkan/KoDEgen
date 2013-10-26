@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import static Ontology.Ontology.*;
-import Exeptions.ClassNameNotFoundException;
-import Exeptions.SameFieldException;
+import Exceptions.ClassNameNotFoundException;
+import Exceptions.SameFieldException;
 import attempts.XMLProduct;
 
 public class CodeCreator {

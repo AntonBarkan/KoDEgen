@@ -4,8 +4,9 @@
 	<classpathentry kind="src" path="XML_Reader"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/home/anton/Documents/project/lib/org.apache.commons.lang.jar/org.apache.commons.lang.jar"/>
-	<classpathentry kind="lib" path="/home/anton/Documents/project/lib/org.apache.commons.io.jar/org.apache.commons.io.jar"/>
+	<classpathentry kind="lib" path="/home/anton/git/R_O_M/Project/lib/org.apache.commons.lang.jar"/>
+	<classpathentry kind="lib" path="/home/anton/git/R_O_M/Project/lib/org.apache.commons.io.jar"/>
 	<classpathentry kind="lib" path="/home/anton/Documents/eclipse/jars/mockito-1.9.5/mockito-all-1.9.5.jar"/>
+	<classpathentry kind="lib" path="/home/anton/git/R_O_M/Project/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

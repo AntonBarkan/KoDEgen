@@ -1,0 +1,10 @@
+Feature: Adding to a shopping cart
+
+	Scenario: Add items to shopping cart factorygirl 
+
+		Given empty shopping cart
+		When I add <quantity> 1 of Product <name> "A" that cost <price> 30$ to shopping cart
+		And I add <quantity> 2 items of Product <name> "B" that costs <price> 50$ to shopping cart
+		And tax is <tax> 8% percent
+		Then shopping cart contains <quantity> 3 items
+

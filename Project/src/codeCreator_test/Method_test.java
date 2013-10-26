@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import codeCreator.Method;
 
-import Exeptions.SameParameterExeption;
+import Exceptions.SameParameterExeption;
 
 public class Method_test {
 	private Method methode;

@@ -3,7 +3,7 @@ package codeCreator;
 import java.util.LinkedList;
 
 
-import Exeptions.SameParameterExeption;
+import Exceptions.SameParameterExeption;
 
 public class Method{
 	private String methodName;

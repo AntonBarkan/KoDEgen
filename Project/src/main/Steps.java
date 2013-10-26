@@ -1,3 +1,4 @@
+package main;
 import java.io.File;
 import java.io.IOException;
 
@@ -6,8 +7,8 @@ import org.apache.commons.io.FileUtils;
 import codeCreator.CodeCreator;
 import cucumberRun.ErrorFinder;
 
-import Exeptions.ClassNameNotFoundException;
-import Exeptions.SameFieldException;
+import Exceptions.ClassNameNotFoundException;
+import Exceptions.SameFieldException;
 import Ontology.Ontology;
 import TestGenerator.StepsGenerator;
 import TestGenerator.TestCreator;
@@ -21,8 +22,12 @@ public class Steps {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		File dir = new File(PATH+"step_definitions/");
-		FileUtils.cleanDirectory(dir);
+		File stepDefinitionsDirectory = new File(PATH+"step_definitions/");
+		if (stepDefinitionsDirectory.exists()){
+			FileUtils.cleanDirectory(stepDefinitionsDirectory);
+		}else{
+			stepDefinitionsDirectory.mkdir();
+		}
 		Ontology ontology = null;
 		try {
 			ontology = new Ontology();
@@ -38,7 +43,6 @@ public class Steps {
 		try {
 			new ErrorFinder(ontology);
 		} catch (ClassNameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

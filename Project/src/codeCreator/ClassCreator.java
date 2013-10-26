@@ -4,10 +4,10 @@ import java.util.LinkedList;
 
 import org.apache.commons.lang.WordUtils;
 
-import Exeptions.ExistTwoMethodsWithThisName;
-import Exeptions.MethodNameNotFoundException;
-import Exeptions.SameFieldException;
-import Exeptions.SameFunctionExeption;
+import Exceptions.ExistTwoMethodsWithThisName;
+import Exceptions.MethodNameNotFoundException;
+import Exceptions.SameFieldException;
+import Exceptions.SameFunctionExeption;
 
 public class ClassCreator {
 	private String className;
@@ -75,6 +75,10 @@ public class ClassCreator {
 	
 	public String getClassName() {
 		return className;
+	}
+	
+	public String toString(){
+		return this.className;
 	}
 
 	

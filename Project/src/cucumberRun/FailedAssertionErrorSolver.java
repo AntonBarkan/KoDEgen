@@ -1,12 +1,10 @@
 package cucumberRun;
 
-import java.lang.reflect.Method;
-
 import codeCreator.ClassCreator;
 import codeCreator.CodeCreator;
-import Exeptions.ClassNameNotFoundException;
-import Exeptions.ExistTwoMethodsWithThisName;
-import Exeptions.MethodNameNotFoundException;
+import Exceptions.ClassNameNotFoundException;
+import Exceptions.ExistTwoMethodsWithThisName;
+import Exceptions.MethodNameNotFoundException;
 import Ontology.Ontology;
 import TestGenerator.TestCreator;
 

@@ -2,8 +2,8 @@ package cucumberRun;
 
 import codeCreator.CodeCreator;
 import codeCreator.Method;
-import Exeptions.ClassNameNotFoundException;
-import Exeptions.SameFunctionExeption;
+import Exceptions.ClassNameNotFoundException;
+import Exceptions.SameFunctionExeption;
 
 public class NoMethodErrorSolver extends ErrorSolver {
 	private String methodName, className;

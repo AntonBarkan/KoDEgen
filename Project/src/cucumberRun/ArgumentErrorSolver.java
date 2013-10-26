@@ -11,9 +11,9 @@ import codeCreator.CodeCreator;
 import codeCreator.Method;
 
 
-import Exeptions.ClassNameNotFoundException;
-import Exeptions.MethodNameNotFoundException;
-import Exeptions.SameParameterExeption;
+import Exceptions.ClassNameNotFoundException;
+import Exceptions.MethodNameNotFoundException;
+import Exceptions.SameParameterExeption;
 import static Ontology.Ontology.*;
 
 public class ArgumentErrorSolver extends ErrorSolver {
@@ -117,7 +117,7 @@ public class ArgumentErrorSolver extends ErrorSolver {
 		try {
 			while( (line = reader.readLine()) != null ){
 				if( i++ < 10 ) { continue; }
-				if( line.trim().equalsIgnoreCase("end") ) { return "" ; }
+			//	if( line.trim().equalsIgnoreCase("end") ) { return "" ; }
 				if( line.contains( "."+this.methodName )) { return line; }
 			}
 		} catch (IOException e) {

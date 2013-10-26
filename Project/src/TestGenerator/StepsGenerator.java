@@ -7,29 +7,34 @@ import cucumberRun.GetData;
 
 import Ontology.Ontology;
 import static Ontology.Ontology.*;
+import static constants.Loggers.GLOBAL_LOG;
 
 
 public class StepsGenerator {
 	
 	
-	private static final String FROM_TEXT = "You can implement step definitions for undefined steps with these snippets:\n\n", 
+	private static final String FROM_TEXT = "You can implement step definitions for undefined" +
+											" steps with these snippets:\n\n", 
 								TO_TEXT   = "If you want snippets in a different programming language,";
 	
 	private Ontology ontology;
 	
-	public StepsGenerator(Ontology ontology)
+	public StepsGenerator( Ontology ontology )
 	{
 		this.ontology = ontology;
 		String data = GetData.runCucumber(PATH+""+PROJECT_NAME+".features");
-		Vector<String> lines = getScenario(data);
+		Vector<String> lines = getScenarios(data);
+		GLOBAL_LOG.info( "->" + data );
 		data = data.substring( data.indexOf(FROM_TEXT)+FROM_TEXT.length() );
-		data = data.substring(0, data.indexOf(TO_TEXT));
-		for(String s : dataParser(data, lines)){
-			TestCreator.getInstance().addStep(s);
+		data = data.substring( 0 , data.indexOf( TO_TEXT ) );
+		for(String s : dataParser( data , lines ) ) {
+			TestCreator.getInstance().addStep( s ) ;
 		}
 	}
 	
 	
+	
+
 	private String[] dataParser( String data, Vector<String> lines )
 	{
 		String[] dataArr = data.split("end\n\n");
@@ -80,12 +85,20 @@ public class StepsGenerator {
 	{
 		Vector<String> lines = new Vector<>();
 		for(String s : data.split("\n")){
-			if(!( s.trim().startsWith("Feature:") || s.trim().startsWith("Scenario:") || s.trim().isEmpty())){
-				lines.add(s.trim());
+			if(!( s.trim().startsWith("Feature:") || s.trim().startsWith("Scenario:") || s.trim().isEmpty() )){
+				if( !s.trim().isEmpty() ){
+					lines.add(s.trim());
+				}
 			}
 		}
 		return lines;
 	}
+	
+	private Vector<String> getScenarios(String data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

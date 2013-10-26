@@ -10,7 +10,7 @@ import org.apache.commons.lang.WordUtils;
 import codeCreator.ClassCreator;
 import codeCreator.CodeCreator;
 
-import Exeptions.SameFieldException;
+import Exceptions.SameFieldException;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
 import StateMachineXML.StateMachineXMLReader;
@@ -21,19 +21,19 @@ import attempts.XMLProduct;
 
 public class Ontology {
 	public static final String 
-	
+	/*
 		    PROJECT_NAME = "shop",
 			PATH = "/home/anton/Documents/project/shop/features/",
 			ONTOLOGY_PATH = "/home/anton/Documents/project/shop/shop.xml" ,
 			ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/shop/shop_ontology_state.xml",
 			STEP_FILE_PATH = "/home/anton/Documents/project/shop/features/step_definitions/shop_steps.rb";
-		/*
+		*/
 	PROJECT_NAME = "ATM",
 	PATH = "/home/anton/Documents/project/ATM/features/",
 	ONTOLOGY_PATH = "/home/anton/Documents/project/ATM/ATM.xml" ,
 	ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/ATM/ATM_ontology_state.xml",
 	STEP_FILE_PATH = "/home/anton/Documents/project/ATM/features/step_definitions/ATM_steps.rb";
-*/
+
 		
 	private LinkedList<State> statesList;
 	private LinkedList<XMLProduct> ontologyList;
@@ -72,7 +72,7 @@ public class Ontology {
 		UnitTestStruct unitTestStruct = new UnitTestStruct( string );
 		String retString = "";
 		for(XMLProduct prod : this.ontologyList){
-			if(string.toLowerCase().contains(prod.getName().toLowerCase()))
+			if(string.toLowerCase().contains(prod.getName().toLowerCase().trim()))
 			{
 				
 				String temp = "\t"+this.classNameGenerate(prod.getName(),  string)+"\n";
@@ -86,15 +86,28 @@ public class Ontology {
 		
 		for( XMLProduct prod : this.ontologyList )
 		{
+			int parameterNumbers = getParametersNumbers( string );
 			for( String s : prod.getAttribute() )
 			{
-				if( string.toLowerCase().contains( s ) )
+				if( string.contains("|") && 	string.substring(string.indexOf("|")).toLowerCase().contains( s ) )
 				{
+					parameterNumbers-- ;
 					String temp = "\t" + this.classAttributeValueGenerate( prod.getName(),s,  string)+"\n";
 					retString += temp;
 					unitTestStruct.setInUSe( s );
-					
 				}
+				
+			}
+			for( String s : prod.getAttribute() )
+			{
+				if( parameterNumbers != 0 && string.toLowerCase().contains( s.toLowerCase() ))
+				{
+					parameterNumbers--;
+					String temp = "\t" + this.classAttributeValueGenerate( prod.getName(),s.replace(" ", "_"),  string)+"\n";
+					retString += temp;
+					unitTestStruct.setInUSe( s );
+				}
+				
 			}
 		}
 
@@ -113,6 +126,14 @@ public class Ontology {
 
 
 
+
+
+
+	private int getParametersNumbers(String line) {
+		if( !line.contains("|")){return 0;}
+		line = line.substring( line.indexOf("|") );
+		return line.split(",").length ;
+	}
 
 
 
