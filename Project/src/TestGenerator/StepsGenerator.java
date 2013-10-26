@@ -23,7 +23,7 @@ public class StepsGenerator {
 	{
 		this.ontology = ontology;
 		String data = GetData.runCucumber(PATH+""+PROJECT_NAME+".features");
-		Vector<String> lines = getScenarios(data);
+		Vector<String> lines = getScenario(data);
 		GLOBAL_LOG.info( "->" + data );
 		data = data.substring( data.indexOf(FROM_TEXT)+FROM_TEXT.length() );
 		data = data.substring( 0 , data.indexOf( TO_TEXT ) );
@@ -39,6 +39,9 @@ public class StepsGenerator {
 	{
 		String[] dataArr = data.split("end\n\n");
 		for(int i = 0 ; i < dataArr.length ; i++){
+			if( i>1 && dataArr[i].trim().startsWith("Given") && dataArr[i-1].trim().startsWith("Then")){
+				this.ontology.cleanClassMap();
+			}
 			dataArr[i] += "end\n";
 			dataArr[i] = fillCode(dataArr[i], lines.get(i));
 		}

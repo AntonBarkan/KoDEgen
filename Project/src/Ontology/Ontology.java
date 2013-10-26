@@ -244,4 +244,9 @@ public class Ontology {
 	public String getClassType(String className) {
 		return this.globalClassMap.get(className);
 	}
+	
+	public void cleanClassMap(){
+		this.globalClassMap.clear();
+		this.code.clear();
+	}
 }

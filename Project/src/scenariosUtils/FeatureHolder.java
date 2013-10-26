@@ -56,4 +56,8 @@ public class FeatureHolder {
 		return  "Feature: " + this.featureName + END_OF_LINE + this.scenarios.get(index).getScenario();
 	}
 
+	public List<ScenarioHolder> getScenarios() {
+		return this.scenarios;
+	}
+
 }

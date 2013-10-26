@@ -9,6 +9,7 @@ import cucumberRun.ErrorFinder;
 
 import Exceptions.ClassNameNotFoundException;
 import Exceptions.SameFieldException;
+import Exceptions.featuresFileExeptions.FeatureNameException;
 import Ontology.Ontology;
 import TestGenerator.StepsGenerator;
 import TestGenerator.TestCreator;
@@ -20,8 +21,10 @@ public class Steps {
 	/**
 	 * @param args
 	 * @throws IOException 
+	 * @throws SameFieldException 
+	 * @throws FeatureNameException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, FeatureNameException, SameFieldException {
 		File stepDefinitionsDirectory = new File(PATH+"step_definitions/");
 		if (stepDefinitionsDirectory.exists()){
 			FileUtils.cleanDirectory(stepDefinitionsDirectory);
