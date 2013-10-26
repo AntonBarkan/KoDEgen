@@ -10,6 +10,9 @@
 			</edge>
 		</state>
 	</ontology_state>
+
+
+
 	<ontology_state>
 		<class_name>ATM</class_name>
 		<state>
@@ -20,4 +23,65 @@
 			</edge>
 		</state>
 	</ontology_state>
+
+
+
+
+	<ontology_state>
+		<class_name>Account</class_name>
+		<state>
+			<state_name>updated</state_name>
+			<edge>
+				<edge_name>request</edge_name>
+				<edge_to>updated</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+
+
+
+	<ontology_state>
+		<class_name>Card</class_name>
+		<state>
+			<state_name>insertion</state_name>
+			<edge>
+				<edge_name>password_entered</edge_name>
+				<edge_to>validation</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+
+	<ontology_state>
+		<class_name>Card</class_name>
+		<state>
+			<state_name>validation</state_name>
+			<edge>
+				<edge_name>valid</edge_name>
+				<edge_to>validated</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+
+	<ontology_state>
+		<class_name>Card</class_name>
+		<state>
+			<state_name>validation</state_name>
+			<edge>
+				<edge_name>not_valid</edge_name>
+				<edge_to>rejected</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+
+	<ontology_state>
+		<class_name>Card</class_name>
+		<state>
+			<state_name>validated</state_name>
+			<edge>
+				<edge_name>operation_completed</edge_name>
+				<edge_to>returned</edge_to>
+			</edge>
+		</state>
+	</ontology_state>
+
 </state_machine>

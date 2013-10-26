@@ -2,16 +2,20 @@
 <ontology>
 	<class> 
 		<name>ATM</name>
-		<attribute id="0">deposit</attribute>
-		<!--attribute id="1">withdraw</attribute-->
-		<attribute id="2">Verify account</attribute>
-		<attribute id="3">dispense cash</attribute>
-		<attribute id="4">Accert cash</attribute>
+		<attribute>deposit</attribute>
+		<attribute>Verify account</attribute>
+		<attribute>dispense cash</attribute>
+		<attribute>Accert cash</attribute>
 	</class>
 	<class>
 		<name>Account</name>
-		<attribute id="0">Cash operation</attribute>
-		<attribute id="1">request balance</attribute>
-		<attribute id="2">balance</attribute>
-	</class>		
+		<attribute>Cash operation</attribute>
+		<attribute>balance</attribute>
+	</class>
+	<class>
+		<name>Card</name>
+		<attribute>accepted</attribute>
+		<attribute>returned</attribute>
+		<attribute>retained</attribute>
+	</class>
 </ontology>

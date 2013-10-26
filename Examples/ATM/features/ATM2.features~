@@ -1,0 +1,13 @@
+Feature: Account Holder withdraws cash
+
+	Scenario: Account has insufficient funds
+
+
+		Given the account balance is <balance> $10
+		And  the Card is valid
+		#And the ATM contains enough money
+		When the Account request cash <amount> $20
+		#Then the ATM should not dispense any money
+		#Then the ATM should say there are insufficient funds
+		Then  the account balance should be <balance> $10
+		And  the card should be <returned> "returned"

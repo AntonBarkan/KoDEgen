@@ -1,7 +1,34 @@
 Feature: Account Withdrawal
-
 	Scenario: Successful withdrawal from an account
-
-		Given account has a balans of <balance> $100
+		Given account has a balance of <balance> $100
 		When <amount> $20 are withdrawn from ATM 
 		Then the account balance should be <balance> $80
+
+
+	Scenario: Account has sufficient funds
+		Given the account balance is <balance> $100
+		And  the Card is valid
+		#And the ATM contains <amount> $50
+		When the Account request cash <amount> $20
+		Then the ATM should dispense cash <dispense_cash> $20
+		Then the account balance should be <balance> $80
+		And  the card should be <returned>"returned"
+
+	Scenario: Account has insufficient funds
+		Given the account balance is <balance> $10
+		And  the Card is valid
+		#And the ATM contains <amount> $50
+ 		When the Account request cash <amount> $20
+		#Then the ATM should not dispense any money
+		#Then the ATM should say there are insufficient funds
+		Then  the account balance should be <balance> $10
+		And  the card should be <returned> "returned"
+
+	Scenario: Card has been disabled
+		Given the ATM
+		And account
+		And the card is not_valid 
+		When the Account request cash <amount> $20
+		Then the card should be <retained>"retained"
+		#the ATM should retain the card
+		#And the ATM should say the card has been retained

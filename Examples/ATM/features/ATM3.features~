@@ -1,0 +1,8 @@
+Feature: Account Holder withdraws cash
+		Scenario: Card has been disabled
+			Given the ATM
+			And the card is not valid
+			When the Account request cash <amount> $20
+			Then the card should be <retained>"retained"
+			#the ATM should retain the card
+			#And the ATM should say the card has been retained
