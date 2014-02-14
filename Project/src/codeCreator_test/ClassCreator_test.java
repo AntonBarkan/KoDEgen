@@ -10,12 +10,12 @@ import org.junit.Test;
 
 import codeCreator.ClassCreator;
 import codeCreator.Method;
+import exceptions.ExistTwoMethodsWithThisName;
+import exceptions.MethodNameNotFoundException;
+import exceptions.SameFieldException;
+import exceptions.SameFunctionExeption;
+import exceptions.SameParameterExeption;
 
-import Exceptions.ExistTwoMethodsWithThisName;
-import Exceptions.MethodNameNotFoundException;
-import Exceptions.SameFieldException;
-import Exceptions.SameFunctionExeption;
-import Exceptions.SameParameterExeption;
 
 public class ClassCreator_test {
 	private ClassCreator classCreator;

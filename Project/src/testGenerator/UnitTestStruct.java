@@ -1,4 +1,4 @@
-package TestGenerator;
+package testGenerator;
 
 import java.util.HashMap;
 

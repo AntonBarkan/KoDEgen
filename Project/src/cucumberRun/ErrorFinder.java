@@ -2,9 +2,11 @@ package cucumberRun;
 
 import java.util.LinkedList;
 
-import Exceptions.ClassNameNotFoundException;
-import Ontology.Ontology;
-import static Ontology.Ontology.*;
+import ontology.Ontology;
+
+import exceptions.ClassNameNotFoundException;
+
+import static main.Steps.*;
 
 public class ErrorFinder {
 	

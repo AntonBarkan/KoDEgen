@@ -5,9 +5,14 @@ public final class Constants {
 	
 	public static final String 
 	
-			COMMENT                     =   "#",
+			COMMENT                     =   "#"   ,
+			 
+			END_OF_LINE                 =   "\n"  ,
 			
-			END_OF_LINE                 =   "\n"  
+			NOT_PREFEX					=   "not"
 			;
+	
+	
+	
 	
 }

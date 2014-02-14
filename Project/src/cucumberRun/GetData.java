@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.swing.JOptionPane;
+
 public class GetData {
 	public static String runCucumber(String path){
 		StringBuilder string  = new StringBuilder();
@@ -12,7 +14,8 @@ public class GetData {
 			p = Runtime.getRuntime().exec("cucumber " + path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Cucumber not found");
+			System.exit(-1);
 		}
 		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line;

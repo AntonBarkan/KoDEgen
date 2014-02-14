@@ -5,8 +5,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import Exceptions.SameFieldException;
-import Exceptions.featuresFileExeptions.FeatureNameException;
+import exceptions.SameFieldException;
+import exceptions.featuresFileExeptions.FeatureNameException;
+
 
 import static common.Constants.COMMENT;
 import static common.Constants.END_OF_LINE;
@@ -16,9 +17,10 @@ import static java.util.Arrays.copyOfRange;
 public class FeatureHolder {
 	private String featureName;
 	private List<ScenarioHolder> scenarios;
+	private ScenarioLineHolder scenarioLineHolder;
 	
 	public FeatureHolder() {
-		
+		this.scenarioLineHolder = new ScenarioLineHolder();
 	}
 	
 	@PostConstruct
@@ -32,15 +34,22 @@ public class FeatureHolder {
 		int lineNumber = 0;
 		for( ; lineNumber < textLines.length ; lineNumber++ ){
 			if (textLines[lineNumber].trim().isEmpty() || textLines[lineNumber].trim().startsWith(COMMENT)){continue;}
-			else if(textLines[lineNumber].startsWith( "Feature" )){ this.featureName = parsName(textLines[lineNumber]);}
+			else if(textLines[lineNumber].startsWith( "Feature" )){ 
+				this.featureName = parsName(textLines[lineNumber++]);
+				
+				break;
+			}
 			else{ throw new FeatureNameException(); }
 		}
-		while(textLines[lineNumber].trim().isEmpty() | textLines[lineNumber++].startsWith(COMMENT));
-		if(!textLines[lineNumber].startsWith("Scenario")){throw new SameFieldException();} 
+		while(textLines[lineNumber].trim().isEmpty() || textLines[lineNumber].trim().startsWith(COMMENT)){lineNumber++;};
+		if(!textLines[lineNumber].trim().startsWith("Scenario")){throw new SameFieldException();} 
 		while(lineNumber < textLines.length){
 			int tempLineNumber = lineNumber++;
-			while (lineNumber < textLines.length && !textLines[lineNumber++].startsWith("Scenario"));
-			scenarios.add(new ScenarioHolder(parsName(textLines[tempLineNumber]) , copyOfRange(textLines, tempLineNumber, lineNumber)));
+			while (lineNumber < textLines.length && !textLines[lineNumber].trim().startsWith("Scenario")){lineNumber++;};
+			scenarios.add(new ScenarioHolder(parsName(textLines[tempLineNumber++]) , copyOfRange(textLines, tempLineNumber, lineNumber)));
+		}
+		for (ScenarioHolder sh : scenarios){
+			this.scenarioLineHolder.addLines(sh.scenarioContent);
 		}
 	}
 	
@@ -58,6 +67,19 @@ public class FeatureHolder {
 
 	public List<ScenarioHolder> getScenarios() {
 		return this.scenarios;
+	}
+	
+	public boolean linesFromSameScenario(String firstLine,String secondLine) throws Exception{
+		for (ScenarioHolder scenario : scenarios){
+			if (scenario.lineFromScenario(firstLine)){
+				if( scenario.lineFromScenario(secondLine)){return true;}
+			}
+		}
+		return false;
+	}
+	
+	public String getLine(int i){
+		return this.scenarioLineHolder.getLineI(i);
 	}
 
 }

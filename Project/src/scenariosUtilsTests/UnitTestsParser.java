@@ -10,14 +10,14 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 
 import cucumberRun.GetData;
+import exceptions.SameFieldException;
+import exceptions.featuresFileExeptions.FeatureNameException;
 
-import Exceptions.SameFieldException;
-import Exceptions.featuresFileExeptions.FeatureNameException;
 import scenariosUtils.FeatureHolder;
 import scenariosUtils.ScenarioHolder;
 
 
-import static Ontology.Ontology.*;
+import static main.Steps.*;
 import static common.Constants.END_OF_LINE;
 
 public class UnitTestsParser {

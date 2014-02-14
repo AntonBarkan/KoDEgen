@@ -13,13 +13,13 @@ public class ScenarioHolder {
 
 
 	private String scenarioName;
-	private String scenarioContent = "";
+	public String scenarioContent = "";
 	private String cucumberOutput;
 	
 	public ScenarioHolder(String name, String[] scenarioContent) {
 		this.scenarioName = name;
 		for (String line : scenarioContent){
-			if( !line.startsWith(COMMENT) && !line.trim().isEmpty() ){
+			if( !line.trim().startsWith(COMMENT) && !line.trim().isEmpty() ){
 				this.scenarioContent += line + END_OF_LINE;
 			}
 		}
@@ -38,6 +38,10 @@ public class ScenarioHolder {
 	
 	public String getCucumberOutput(){
 		return this.cucumberOutput;
+	}
+
+	public boolean lineFromScenario(String line) {
+		return scenarioContent.contains(line);
 	}
 
 

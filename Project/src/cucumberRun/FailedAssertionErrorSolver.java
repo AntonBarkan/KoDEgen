@@ -1,12 +1,12 @@
 package cucumberRun;
 
+import ontology.Ontology;
+import testGenerator.TestCreator;
 import codeCreator.ClassCreator;
 import codeCreator.CodeCreator;
-import Exceptions.ClassNameNotFoundException;
-import Exceptions.ExistTwoMethodsWithThisName;
-import Exceptions.MethodNameNotFoundException;
-import Ontology.Ontology;
-import TestGenerator.TestCreator;
+import exceptions.ClassNameNotFoundException;
+import exceptions.ExistTwoMethodsWithThisName;
+import exceptions.MethodNameNotFoundException;
 
 public class FailedAssertionErrorSolver extends ErrorSolver 
 {

@@ -4,10 +4,11 @@ import java.util.LinkedList;
 
 import org.apache.commons.lang.WordUtils;
 
-import Exceptions.ExistTwoMethodsWithThisName;
-import Exceptions.MethodNameNotFoundException;
-import Exceptions.SameFieldException;
-import Exceptions.SameFunctionExeption;
+import exceptions.ExistTwoMethodsWithThisName;
+import exceptions.MethodNameNotFoundException;
+import exceptions.SameFieldException;
+import exceptions.SameFunctionExeption;
+
 
 public class ClassCreator {
 	private String className;

@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import codeCreator.Method;
+import exceptions.SameParameterExeption;
 
-import Exceptions.SameParameterExeption;
 
 public class Method_test {
 	private Method methode;

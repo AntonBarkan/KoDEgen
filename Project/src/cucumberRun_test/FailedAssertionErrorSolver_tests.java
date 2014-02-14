@@ -11,11 +11,13 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import ontology.Ontology;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import Ontology.Ontology;
-import TestGenerator.TestCreator;
+import testGenerator.TestCreator;
+
 import codeCreator.CodeCreator;
 import cucumberRun.FailedAssertionErrorSolver;
 

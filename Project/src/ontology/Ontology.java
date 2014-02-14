@@ -1,38 +1,37 @@
-package Ontology;
+package ontology;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.Set;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+
+import statecharAnalizer.Analizer;
+import statecharAnalizer.BooleanAnalizer;
+import statecharAnalizer.StatecharHolder;
+import testGenerator.UnitTestStruct;
 
 import codeCreator.ClassCreator;
 import codeCreator.CodeCreator;
+import exceptions.SameFieldException;
 
-import Exceptions.SameFieldException;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
 import StateMachineXML.StateMachineXMLReader;
-import TestGenerator.UnitTestStruct;
 import attempts.ReadXMLFile;
 import attempts.XMLProduct;
 
+import static common.CommonFunctions.*;
+import static main.Steps.*;
+
 
 public class Ontology {
-	public static final String 
-	/*
-		    PROJECT_NAME = "shop",
-			PATH = "/home/anton/Documents/project/shop/features/",
-			ONTOLOGY_PATH = "/home/anton/Documents/project/shop/shop.xml" ,
-			ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/shop/shop_ontology_state.xml",
-			STEP_FILE_PATH = "/home/anton/Documents/project/shop/features/step_definitions/shop_steps.rb";
-		*/
-	PROJECT_NAME = "ATM",
-	PATH = "/home/anton/Documents/project/ATM/features/",
-	ONTOLOGY_PATH = "/home/anton/Documents/project/ATM/ATM.xml" ,
-	ONTOLOGY_STATES_PATH = "/home/anton/Documents/project/ATM/ATM_ontology_state.xml",
-	STEP_FILE_PATH = "/home/anton/Documents/project/ATM/features/step_definitions/ATM_steps.rb";
+	
 
 		
 	private LinkedList<State> statesList;
@@ -45,6 +44,8 @@ public class Ontology {
 	private HashMap<String, String> globalClassMap;
 	
 	private LinkedList<String> code;
+	
+	private StatecharHolder statecharHolder;
 	
 	public Ontology() throws SameFieldException, IOException
 	{
@@ -63,34 +64,46 @@ public class Ontology {
 		StateMachineXMLReader readerStates = new StateMachineXMLReader(ONTOLOGY_STATES_PATH);
 		readerStates.execute();
 		this.statesList = readerStates.getList();
+		statecharHolder = new StatecharHolder(this.ontologyList ,this.statesList );
 			
 		
 	}
 
-	public String  findCoincidence( String string , String line ) 
+	public String  findCoincidence( String string , String line ) throws Exception 
 	{
+		SystemCalls sc = null;
+		if ((sc = SystemCalls.getSystemCallSolver(line))!=null){
+			sc.injectMockCreation(globalClassMap , string, line);
+			return sc.createUnitTest(globalClassMap, string);
+		}
 		UnitTestStruct unitTestStruct = new UnitTestStruct( string );
+		Set<String> objects;
+		Set<String> mockObjects = new HashSet<>();
+		if( !(objects = containObject(line)).isEmpty() ){
+			mockObjects = getMockObjects(objects);
+		}
+		
 		String retString = "";
 		for(XMLProduct prod : this.ontologyList){
 			if(string.toLowerCase().contains(prod.getName().toLowerCase().trim()))
 			{
-				
-				String temp = "\t"+this.classNameGenerate(prod.getName(),  string)+"\n";
-				retString += addToCode(temp);		
+				String temp = "";
+				if(mockObjects.isEmpty()){
+					temp = "\t"+this.classNameGenerate(prod.getName(),  string)+"\n";
+					retString += addToCode(temp);
+				}
 				
 				if( !this.addToCode(temp).isEmpty() ){
 					unitTestStruct.addClass( temp.trim().substring(0,temp.trim().indexOf("=")).trim() );
 				}
 			}
 		}
-		
-		for( XMLProduct prod : this.ontologyList )
-		{
+		for (XMLProduct prod : this.ontologyList) {
 			int parameterNumbers = getParametersNumbers( string );
+			
 			for( String s : prod.getAttribute() )
 			{
-				if( string.contains("|") && 	string.substring(string.indexOf("|")).toLowerCase().contains( s ) )
-				{
+				if (string.contains("|") && string.substring(string.indexOf("|")).toLowerCase().contains( s ) ) {
 					parameterNumbers-- ;
 					String temp = "\t" + this.classAttributeValueGenerate( prod.getName(),s,  string)+"\n";
 					retString += temp;
@@ -98,6 +111,7 @@ public class Ontology {
 				}
 				
 			}
+			
 			for( String s : prod.getAttribute() )
 			{
 				if( parameterNumbers != 0 && string.toLowerCase().contains( s.toLowerCase() ))
@@ -107,8 +121,8 @@ public class Ontology {
 					retString += temp;
 					unitTestStruct.setInUSe( s );
 				}
-				
 			}
+			
 		}
 
 		for( State s : statesList )
@@ -116,8 +130,13 @@ public class Ontology {
 			for(Edge e : s.getEdges())
 			{
 				if(string.toLowerCase().contains(e.getName().toLowerCase())){
-					String temp = "\t"+this.testFunctionGeneretor( s , e , string , unitTestStruct )+"\n";
-					retString += temp;
+					if(mockObjects.isEmpty()){
+						String temp = "\t"+this.testFunctionGeneretor( s , e , string , unitTestStruct )+"\n";
+						retString += temp;
+					}else{
+						retString = createMockObject(mockObjects.iterator().next(), e.getName()  , s.getClassName() , getStringFromFirstStringToSecondString(string, "|", "|") );
+					}
+					
 				}
 			}
 		}
@@ -126,6 +145,44 @@ public class Ontology {
 
 
 
+
+
+
+	private Set<String> getMockObjects(Set<String> objects) {
+		Set<String> mockObjects = new HashSet<>(); 
+		for (String o : objects){
+			boolean flag = false;
+			for (XMLProduct prod : this.ontologyList){
+				if (o.trim().equalsIgnoreCase(prod.getName().trim())){
+					flag = true;
+				}
+			}
+			if (!flag){mockObjects.add(o);}
+		}
+		return mockObjects;
+	}
+
+
+
+	private Set<String> containObject(String line) {
+		Set<String> classesSet = new HashSet<>();
+		String[] wordArray = line.split(" ");
+		int i = 1;
+		while (i<wordArray.length && ( wordArray[i].trim().isEmpty() || Character.isLetter(wordArray[i].charAt(0)))){
+			if(wordArray[i].trim().isEmpty()){i++;continue;}
+			String temp = "";
+			while (i<wordArray.length  && Character.isUpperCase(wordArray[i].charAt(0))){
+				temp += " "+wordArray[i++];
+			}
+			if(!temp.isEmpty()){
+				classesSet.add(temp.trim());
+			}else{
+				i++;
+			}
+			
+		}
+		return classesSet;
+	}
 
 
 
@@ -161,8 +218,11 @@ public class Ontology {
 		{
 			retString = "@";
 		}
-		if(line.startsWith("Then"))
-		{
+		if (line.startsWith("Then"))
+		{	
+			if (line.contains("print")){
+				return retString;
+			}
 			return
 					retString + "" + this.findClassName( className, line) + "." +
 					"stub(:" + attribute + ").and_return(" + attribute + ")"
@@ -173,8 +233,9 @@ public class Ontology {
 		else
 		{
 			return retString + this.findClassName(className, line) + "." + attribute + 
-					" = " + attribute ;
-		}
+					" = " + 
+					((getParametersNumbers(line)==1)?getStringFromFirstStringToSecondString(line, "|", "|"):attribute) ;
+		}		//TODO lineHolder testHolder
 	}
 
 
@@ -190,13 +251,13 @@ public class Ontology {
 		if(line.startsWith("Then"))
 		{
 			return 
-					retString + this.findClassName(state.getClassName(), line) + ".stub(:" + edge.getName() + ").and_return(" + 
+					retString + this.findClassName(state.getClassName(), line) + ".stub(:" + edge.getName().replaceAll(" ", "_") + ").and_return(" + 
 					unitTestStruct.getParamettersString(state.getClassName()) + ")"	+ "\n" +
 					 "\t" + "assert " + unitTestStruct.getParamettersString(state.getClassName()) + " == " + retString 
-					+ this.findClassName(state.getClassName(), line) + "." + edge.getName()+"( ).to_s";
+					+ this.findClassName(state.getClassName(), line) + "." + edge.getName().replaceAll(" ", "_") + "( ).to_s";
 		}
 		return retString + this.findClassName( state.getClassName() , line ) + "."
-			+edge.getName() + "(" +
+			+edge.getName().replaceAll(" ", "_") + "(" +
 			unitTestStruct.getParamettersString(this.findClassName( state.getClassName() , line )) + ")" ;
 		
 	}
@@ -249,4 +310,32 @@ public class Ontology {
 		this.globalClassMap.clear();
 		this.code.clear();
 	}
+	
+	private Set<String> getClassNames(String classType){
+		Set<String> classes = new HashSet<>(); 
+		for (Entry<String,String> s : globalClassMap.entrySet()){
+			if (s.getValue().trim().equalsIgnoreCase(classType.trim())){
+				classes.add(s.getKey());
+			}
+		}
+		return classes;
+		
+	}
+	
+	private String createMockObject(String name, String method , String className ,  String paramsString){
+		
+		name=name.trim().replace(" ", "_");
+		Set<String> classes = getClassNames(className);
+		if (classes.size()!=1){
+			//FIXME
+		}
+		
+		return "\t" + StringUtils.lowerCase(name) + " = mock( \"" + StringUtils.capitalize(name) + " \")\n"+
+				"\t" + StringUtils.lowerCase(name) + ".stub!( :" + method + " ).with( " + paramsString  + " ) do \n" +
+				"\t\t" +   "@" + classes.iterator().next() + "." + method + "( " + paramsString + " ) \n" +
+				"\tend\n" +
+				"\t" + StringUtils.lowerCase(name) + "." + method + "( " + paramsString + " )\n";
+			
+	}
+	
 }

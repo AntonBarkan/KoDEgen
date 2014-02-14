@@ -1,4 +1,4 @@
-package TestGenerator_test;
+package testGenerator_test;
 
 import static org.junit.Assert.*;
 
@@ -7,13 +7,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import static org.mockito.Mockito.*;
 
+import ontology.Ontology;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import Ontology.Ontology;
-import static Ontology.Ontology.*;
-import TestGenerator.StepsGenerator;
+import testGenerator.StepsGenerator;
+
+import static main.Steps.*;
 
 public class StepsGenerator_tests {
 
@@ -29,7 +31,7 @@ public class StepsGenerator_tests {
 	}
 
 	@Test
-	public void testRewriteArguments() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testRewriteArguments1() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Method method = this.gen.getClass().getDeclaredMethod("rewriteArguments", String.class);
 		method.setAccessible(true);
 		assertEquals("When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\" to shopping cart$/ do |quantity, name|"
@@ -45,6 +47,20 @@ public class StepsGenerator_tests {
 		assertArrayEquals( (Object[])arr
 				,(Object[])method.invoke(this.gen,"When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\" to shopping cart$/ do |arg1, arg2"));
 	
+	}
+	
+	@Test
+	public void testRewriteArguments() throws Exception{
+		File dir = new File(PATH+"step_definitions/");
+		FileUtils.cleanDirectory(dir);
+		this.ontology = mock(Ontology.class);
+		this.gen = new StepsGenerator(this.ontology);
+		Method method = this.gen.getClass().getDeclaredMethod("rewriteArguments", String.class);
+		method.setAccessible(true);
+		assertEquals("When /^I add <quantity> (\\d+) of Product <name> \"(.*?)\"" +
+				" to shopping cart$/ do |quantity, name|"
+				,(String)method.invoke(this.gen,"When /^I add <quantity> (\\d+) of " +
+						"Product <name> \"(.*?)\" to shopping cart$/ do |arg1, arg2|"));
 	}
 
 }

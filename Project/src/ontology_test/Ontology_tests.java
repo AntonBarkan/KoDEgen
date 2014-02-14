@@ -1,4 +1,4 @@
-package Ontology_test;
+package ontology_test;
 
 import static org.junit.Assert.*;
 
@@ -7,14 +7,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+
+import ontology.Ontology;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import testGenerator.UnitTestStruct;
+
 import static org.mockito.Mockito.*;
-import Ontology.Ontology;
 import StateMachineXML.Edge;
 import StateMachineXML.State;
-import TestGenerator.UnitTestStruct;
 
 
 

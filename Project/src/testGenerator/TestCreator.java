@@ -1,4 +1,4 @@
-package TestGenerator;
+package testGenerator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 
 
-import static Ontology.Ontology.*;
+import static main.Steps.*;
 import static common.CommonFields.*;
 
 

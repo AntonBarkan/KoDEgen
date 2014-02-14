@@ -1,4 +1,4 @@
-package Exceptions.featuresFileExeptions;
+package exceptions.featuresFileExeptions;
 
 public class FeatureNameException extends Exception{
 

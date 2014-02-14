@@ -1,4 +1,4 @@
-package TestGenerator_test;
+package testGenerator_test;
 
 import static org.junit.Assert.*;
 import static commonTestsClasses.TestConstants.*;
@@ -6,7 +6,8 @@ import static commonTestsClasses.TestConstants.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import TestGenerator.TestCreator;
+import testGenerator.TestCreator;
+
 
 public class TestCreator_tests {
 	

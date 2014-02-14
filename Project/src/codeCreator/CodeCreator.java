@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import static Ontology.Ontology.*;
-import Exceptions.ClassNameNotFoundException;
-import Exceptions.SameFieldException;
+import exceptions.ClassNameNotFoundException;
+import exceptions.SameFieldException;
+
+import static main.Steps.*;
 import attempts.XMLProduct;
 
 public class CodeCreator {
@@ -59,6 +60,7 @@ public class CodeCreator {
 		for(Map.Entry<String, ClassCreator> entry : classMap.entrySet()){
 			String classString = entry.getValue().generateCode();
 			File file = new File(PATH+"step_definitions/"+entry.getKey()+".rb");
+			
 			try {
 				file.createNewFile();
 				FileWriter fileWriter = new FileWriter(file);

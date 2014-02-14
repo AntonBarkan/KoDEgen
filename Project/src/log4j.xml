@@ -11,15 +11,16 @@
 
    <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
       <param name="append" value="false"/>
-      <param name="file" value="out/learning.log"/>
+      <param name="file" value="out/log.log"/>
       <layout class="org.apache.log4j.PatternLayout">
          <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
       </layout>
    </appender>
 
    <root>
-      <level value="INFO"/>
+      <level value="all"/>
       <appender-ref ref="consoleAppender"/>
+      <appender-ref ref="fileAppender"/>
    </root>
 
 </log4j:configuration>

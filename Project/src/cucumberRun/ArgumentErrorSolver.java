@@ -9,12 +9,12 @@ import java.io.IOException;
 import codeCreator.ClassCreator;
 import codeCreator.CodeCreator;
 import codeCreator.Method;
+import exceptions.ClassNameNotFoundException;
+import exceptions.MethodNameNotFoundException;
+import exceptions.SameParameterExeption;
 
 
-import Exceptions.ClassNameNotFoundException;
-import Exceptions.MethodNameNotFoundException;
-import Exceptions.SameParameterExeption;
-import static Ontology.Ontology.*;
+import static main.Steps.*;
 
 public class ArgumentErrorSolver extends ErrorSolver {
 	
@@ -91,7 +91,7 @@ public class ArgumentErrorSolver extends ErrorSolver {
 
 	private String[] getParameters(String stringFromFirstStringToSecondString) {
 		if( stringFromFirstStringToSecondString == null ){
-			return null;
+			return new String[0];
 		}
 		String[] parameters = stringFromFirstStringToSecondString.split(",");
 		for( int i = 0 ; i < parameters.length ; i++ ){
